@@ -14,7 +14,7 @@ function findById(user_id) {
 function findByName(username) {
   return db('users as u')
     .where('u.username', username)
-    .first('u.id', 'u.username')
+    .first('u.id', 'u.username', 'u.password')
 }
 
 const add = async user => {

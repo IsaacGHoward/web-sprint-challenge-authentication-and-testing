@@ -10,6 +10,17 @@ const validateUsername = (req,res,next) => {
     })
 }
 
+const checkUsernameExists = (req,res,next) => {
+  Users.findByName(req.body.username)
+    .then(user => {
+      if(user)
+        next();
+      else 
+        res.send({'message': 'invalid credentials'})
+    })
+}
+
+
 const infoPresent = (req,res,next) => {
   if(!req.body.username || !req.body.password)
     res.send({'message': 'username and password required'});
@@ -19,5 +30,6 @@ const infoPresent = (req,res,next) => {
 
 module.exports = {
   validateUsername,
+  checkUsernameExists,
   infoPresent
 }
