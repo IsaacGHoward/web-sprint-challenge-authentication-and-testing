@@ -16,7 +16,6 @@ module.exports = (req, res, next) => {
       the response body should include a string exactly as follows: "token invalid".
   */
   const token = req.cookies.token;
-  console.log(token);
   if(!token)
     return res.status(401).json({'message': 'token required'})
   else{
