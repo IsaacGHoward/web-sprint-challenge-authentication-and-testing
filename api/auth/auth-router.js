@@ -9,7 +9,7 @@ const Users = require("../users/users-model");
 const { validateUsername, infoPresent} = require('./auth-middleware');
 
 router.post('/register', infoPresent, validateUsername, (req, res) => {
-  res.end('implement register, please!');
+  //res.end('implement register, please!');
   /*
     test change
     IMPLEMENT
