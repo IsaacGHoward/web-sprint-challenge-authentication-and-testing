@@ -1,10 +1,14 @@
 const router = require('express').Router();
 
+const { JWT_SECRET } = 'thisisthesecret'
+
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const Users = require("../users/users-model");
 
-router.post('/register', (req, res) => {
+const { validateUsername, infoPresent} = require('./auth-middleware');
+
+router.post('/register', infoPresent, validateUsername, (req, res) => {
   res.end('implement register, please!');
   /*
     test change
@@ -32,6 +36,16 @@ router.post('/register', (req, res) => {
       the response body should include a string exactly as follows: "username taken".
   */
 
+    let user = req.body;
+    const hash = bcrypt.hashSync(user.password, 12);
+    user.password = hash;
+    Users.add(user)
+      .then(saved => {
+        if(saved)
+          res.status(201).json(saved)
+        else
+          res.json({'message': 'Could not add user'});
+      })
 
 
 });
@@ -62,5 +76,16 @@ router.post('/login', (req, res) => {
       the response body should include a string exactly as follows: "invalid credentials".
   */
 });
+
+function generateToken(user){
+  const payload = {
+    subject: user.id,
+    username: user.username,
+  }
+  const options = {
+    expiresIn: '1d'
+  }
+  return jwt.sign(payload,JWT_SECRET, options)
+}
 
 module.exports = router;
