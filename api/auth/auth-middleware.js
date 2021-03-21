@@ -4,7 +4,7 @@ const validateUsername = (req,res,next) => {
   Users.findByName(req.body.username)
     .then(user => {
       if(user)
-        res.send({'message': 'username taken'})
+        res.status(400).send({'message': 'username taken'})
       else 
         next();
     })
@@ -16,7 +16,7 @@ const checkUsernameExists = (req,res,next) => {
       if(user)
         next();
       else 
-        res.send({'message': 'invalid credentials'})
+        res.status(404).send({'message': 'invalid credentials'})
     })
 }
 

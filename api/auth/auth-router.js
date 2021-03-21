@@ -44,7 +44,7 @@ router.post('/register', infoPresent, validateUsername, (req, res) => {
         if(saved)
           res.status(201).json(saved)
         else
-          res.json({'message': 'Could not add user'});
+          res.status(500).json({'message': 'Could not add user'});
       })
 
 
