@@ -23,7 +23,7 @@ const checkUsernameExists = (req,res,next) => {
 
 const infoPresent = (req,res,next) => {
   if(!req.body.username || !req.body.password)
-    res.send({'message': 'username and password required'});
+    res.status(404).send({'message': 'username and password required'});
   else 
     next();
 }
